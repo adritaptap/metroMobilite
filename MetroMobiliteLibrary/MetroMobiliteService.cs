@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -11,10 +12,15 @@ namespace MetroMobiliteLibrary
 {
     public class MetroMobiliteService
     {
-
-        public Dictionary<string, Stop> GetStops()
+        public MetroMobiliteService()
         {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://data.metromobilite.fr/api/linesNear/json?x=5.7248162&y=45.1857086&dist=700&details=true");
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+        }
+
+        public Dictionary<string, Stop> GetStops(double lat, double lon, int dist)
+        {
+            string url = "https://data.metromobilite.fr/api/linesNear/json?x=" + lon.ToString(CultureInfo.InvariantCulture) + "&y=" + lat.ToString(CultureInfo.InvariantCulture) + "&dist=" + dist + "&details=true";
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.Credentials = CredentialCache.DefaultCredentials;
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
             Stream receiveStream = response.GetResponseStream();
@@ -24,6 +30,7 @@ namespace MetroMobiliteLibrary
             List<Stop> stops = JsonConvert.DeserializeObject<List<Stop>>(data);
 
             response.Close();
+
             readStream.Close();
 
             Dictionary<string, Stop> dico = new Dictionary<string, Stop>();
@@ -41,9 +48,8 @@ namespace MetroMobiliteLibrary
 
                 }
             }
-
             return dico;
-        } 
+        }
 
         public List<Line> GetLines(List<string> names)
         {
