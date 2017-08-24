@@ -3,26 +3,55 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:converteur="clr-namespace:MetroMobiliteUI.Converter"
              xmlns:local="clr-namespace:MetroMobiliteUI.Views"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    
+    <UserControl.Resources>
+        <converteur:TypeToRadiusConverter x:Key="converterRadius" />
+        <converteur:TypeToWidthConverter x:Key="converterWidth" />
+    </UserControl.Resources>
+
     <Grid>
-        <StackPanel HorizontalAlignment = "Left">
+        <ScrollViewer>
+            <StackPanel HorizontalAlignment = "Center">
+                <TextBox Margin="0 25 0 0" FontSize="25" TextAlignment="Center">
+                    Les arrêts et lignes près de vous :
+                </TextBox>
+                <ItemsControl ItemsSource = "{Binding Path = Stops}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border CornerRadius="2"
+                                BorderBrush="#d1d1d1"
+                                Background="#ffffff"
+                                BorderThickness="2"
+                                Margin="0 0 0 20"
+                                Padding="8">
+                                <StackPanel Orientation = "Horizontal"  Margin = "0 0 0 50">
+                                    <TextBlock Text = "{Binding Path = Name, Mode = TwoWay}"  Margin = "0 5 3 5" FontWeight="Bold" FontSize="15" Width="250"/>
+                                    <ItemsControl ItemsSource = "{Binding Path = Lines}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation = "Horizontal">
 
-            <ItemsControl ItemsSource = "{Binding Path = Stops}">
+                                                    <Border Margin="5" Padding="5" BorderThickness="1" BorderBrush="#0000" Background="{Binding Path=Color, Mode = TwoWay}" CornerRadius="{Binding Path=Type, Converter={StaticResource converterRadius}}" Height="50" Width="{Binding Path=Type, Converter={StaticResource converterWidth}}">
+                                                        <TextBlock Text = "{Binding Path = ShortName, Mode = TwoWay}"  Margin = "1" VerticalAlignment="Center"  HorizontalAlignment="Center" Foreground="{Binding Path=TextColor, Mode = TwoWay}" FontWeight="Bold" FontSize="15"/>
+                                                    </Border>
+                                                    <TextBlock Text = "{Binding Path =LongName, Mode = TwoWay}" Margin = "1" VerticalAlignment="Center"  HorizontalAlignment="Center" FontSize="15" />
+                                                    <TextBlock Text = "//"  Margin = "1" VerticalAlignment="Center"  HorizontalAlignment="Center" FontWeight="Bold"  FontSize="15" />
+                                                    <TextBlock Text = "{Binding Path = Type, Mode = TwoWay}"  Margin = "1" VerticalAlignment="Center"  HorizontalAlignment="Center" FontWeight="Bold"  FontSize="15"/>
 
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation = "Horizontal">
-
-                            <TextBlock Text = "{Binding Path = Name, Mode = TwoWay}" 
-                        Margin = "0 5 3 5"/>
-
-                        </StackPanel>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-
-            </ItemsControl>
-        </StackPanel>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </UserControl>

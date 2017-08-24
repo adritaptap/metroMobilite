@@ -32,5 +32,17 @@ namespace MetroMobiliteUI
 
             UserControl1Control.DataContext = StopViewModelObject;
         }
+
+        public void DisplayData(object sender, RoutedEventArgs e)
+        {
+            UserControl1Control.Visibility = Visibility.Visible;
+
+
+        }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }

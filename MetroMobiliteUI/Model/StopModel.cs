@@ -10,35 +10,43 @@ namespace MetroMobiliteUI.Model
 
     public class StopModel : INotifyPropertyChanged
     {
-        public string name;
-        public List<string> lines;
+        private string _name;
+        private List<LineModel> _lines;
+
+        public StopModel(string name)
+        {
+            this.Name = name;
+            this.Lines = new List<LineModel>();
+        }
 
         public string Name {
             get
             {
-                return name;
+                return _name;
             }
+
             set
             {
-                if (name != value)
+                if (_name != value)
                 {
-                    name = value;
+                    _name = value;
                     RaisePropertyChanged("Name");
                 }
             }
         }
 
-        public List<string> Lines
+        public List<LineModel> Lines
         {
             get
             {
-                return lines;
+                return _lines;
             }
+
             set
             {
-                if (lines != value)
+                if (_lines != value)
                 {
-                    lines = value;
+                    _lines = value;
                     RaisePropertyChanged("Lines");
                 }
             }

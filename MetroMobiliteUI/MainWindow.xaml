@@ -6,12 +6,17 @@
         xmlns:local="clr-namespace:MetroMobiliteUI"
         xmlns:views="clr-namespace:MetroMobiliteUI.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525" ShowInTaskbar="False">
+        Title="MainWindow" Height="Auto" Width="Auto" ShowInTaskbar="False">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="148*"/>
-            <ColumnDefinition Width="369*"/>
+            <ColumnDefinition Width="63*"/>
+            <ColumnDefinition Width="317*"/>
         </Grid.ColumnDefinitions>
-        <views:UserControl1 x:Name = "UserControl1Control" Loaded = "UserControl1_Loaded" Grid.ColumnSpan="2"/>
+        <Button Name="btn" HorizontalAlignment="Left" Margin="10,100,0,0" VerticalAlignment="Top" Width="75" Click="DisplayData"
+       ClickMode="Release">
+            Afficher
+        </Button>
+      
+        <views:UserControl1 x:Name = "UserControl1Control" Loaded = "UserControl1_Loaded" Grid.ColumnSpan="2" Visibility="Hidden"/>
     </Grid>
 </Window>
