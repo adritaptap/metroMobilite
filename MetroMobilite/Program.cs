@@ -18,7 +18,7 @@ namespace MetroMobilite
             MetroMobiliteLibrary.MetroMobiliteService metroMobiliteService = new MetroMobiliteLibrary.MetroMobiliteService();
             
 
-            Dictionary<string, MetroMobiliteLibrary.Stop> stops = metroMobiliteService.GetStops(45.1857086, 5.7248162, 700);
+            Dictionary<string, MetroMobiliteLibrary.Stop> stops = metroMobiliteService.GetStops("45.1857086", "5.7248162", 700);
            
             foreach (var stop in stops.Values)
             {

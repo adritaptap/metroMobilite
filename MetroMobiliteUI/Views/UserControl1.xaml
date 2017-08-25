@@ -1,13 +1,18 @@
 ﻿<UserControl x:Class="MetroMobiliteUI.Views.UserControl1"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+            Background="{DynamicResource MaterialDesignPaper}"
+            TextElement.FontWeight="Regular"
+            TextOptions.TextFormattingMode="Ideal"
+            TextOptions.TextRenderingMode="Auto"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:converteur="clr-namespace:MetroMobiliteUI.Converter"
              xmlns:local="clr-namespace:MetroMobiliteUI.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    
+             d:DesignHeight="500" d:DesignWidth="500">
+
     <UserControl.Resources>
         <converteur:TypeToRadiusConverter x:Key="converterRadius" />
         <converteur:TypeToWidthConverter x:Key="converterWidth" />
@@ -16,9 +21,30 @@
     <Grid>
         <ScrollViewer>
             <StackPanel HorizontalAlignment = "Center">
-                <TextBox Margin="0 25 0 0" FontSize="25" TextAlignment="Center">
+                <TextBlock Margin="0 30 0 0" FontSize="25" TextAlignment="left" Width="Auto">
+                    Géolocalisation
+                </TextBlock>
+                <StackPanel HorizontalAlignment = "left">
+                    <WrapPanel>
+                        <Label VerticalAlignment="Center" Margin="10, 10, 0, 0" Content="Lat" Width="120" FontSize="15"/>
+                        <TextBox Name="lat" Text="{Binding Path=Lat , Mode = TwoWay}" Margin="10, 10, 0, 0" MinWidth="80"  FontSize="15"/>
+                    </WrapPanel>
+                    <WrapPanel>
+                        <Label VerticalAlignment="Center" Margin="10, 10, 0, 0" Content="Long" Width="120" FontSize="15"/>
+                        <TextBox Name="lon"  Text="{Binding Path=Lon, Mode = TwoWay}" Margin="10, 10, 0, 0" MinWidth="80"  FontSize="15"/>
+                    </WrapPanel>
+                    <WrapPanel>
+                        <Label VerticalAlignment="Center" Margin="10, 10, 0, 0" Content="Distance (en m)" Width="120" FontSize="15"/>
+                        <TextBox Name="dist" Text="{Binding Path=Dist, Mode = TwoWay}" Margin="10, 10, 0, 0" MinWidth="80"  FontSize="15"/>
+                    </WrapPanel>
+                    <Button Name="btn" HorizontalAlignment="Left" Margin="10,20,0,0"  Width="90" Click="DisplayData"
+       ClickMode="Release">
+                        Afficher
+                    </Button>
+                </StackPanel>
+                <TextBlock Name="Title" Margin="0 10 0 25" FontSize="25" TextAlignment="left" Visibility="Hidden" Width="Auto">
                     Les arrêts et lignes près de vous :
-                </TextBox>
+                </TextBlock>
                 <ItemsControl ItemsSource = "{Binding Path = Stops}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
@@ -29,19 +55,19 @@
                                 Margin="0 0 0 20"
                                 Padding="8">
                                 <StackPanel Orientation = "Horizontal"  Margin = "0 0 0 50">
-                                    <TextBlock Text = "{Binding Path = Name, Mode = TwoWay}"  Margin = "0 5 3 5" FontWeight="Bold" FontSize="15" Width="250"/>
+                                    <WrapPanel>
+                                        <TextBlock Text = "{Binding Path = Name, Mode = TwoWay}" TextWrapping="Wrap" Margin = "0 5 3 5" FontWeight="Bold" FontSize="15" Width="250"/>
+                                    </WrapPanel>
                                     <ItemsControl ItemsSource = "{Binding Path = Lines}">
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
                                                 <StackPanel Orientation = "Horizontal">
-
                                                     <Border Margin="5" Padding="5" BorderThickness="1" BorderBrush="#0000" Background="{Binding Path=Color, Mode = TwoWay}" CornerRadius="{Binding Path=Type, Converter={StaticResource converterRadius}}" Height="50" Width="{Binding Path=Type, Converter={StaticResource converterWidth}}">
                                                         <TextBlock Text = "{Binding Path = ShortName, Mode = TwoWay}"  Margin = "1" VerticalAlignment="Center"  HorizontalAlignment="Center" Foreground="{Binding Path=TextColor, Mode = TwoWay}" FontWeight="Bold" FontSize="15"/>
                                                     </Border>
                                                     <TextBlock Text = "{Binding Path =LongName, Mode = TwoWay}" Margin = "1" VerticalAlignment="Center"  HorizontalAlignment="Center" FontSize="15" />
                                                     <TextBlock Text = "//"  Margin = "1" VerticalAlignment="Center"  HorizontalAlignment="Center" FontWeight="Bold"  FontSize="15" />
                                                     <TextBlock Text = "{Binding Path = Type, Mode = TwoWay}"  Margin = "1" VerticalAlignment="Center"  HorizontalAlignment="Center" FontWeight="Bold"  FontSize="15"/>
-
                                                 </StackPanel>
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>

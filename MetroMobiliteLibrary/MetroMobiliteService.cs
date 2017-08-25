@@ -17,9 +17,9 @@ namespace MetroMobiliteLibrary
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
         }
 
-        public Dictionary<string, Stop> GetStops(double lat, double lon, int dist)
+        public Dictionary<string, Stop> GetStops(string lat, string lon, int dist)
         {
-            string url = "https://data.metromobilite.fr/api/linesNear/json?x=" + lon.ToString(CultureInfo.InvariantCulture) + "&y=" + lat.ToString(CultureInfo.InvariantCulture) + "&dist=" + dist + "&details=true";
+            string url = "https://data.metromobilite.fr/api/linesNear/json?x=" + lon.ToString() + "&y=" + lat.ToString() + "&dist=" + dist + "&details=true";
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.Credentials = CredentialCache.DefaultCredentials;
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();

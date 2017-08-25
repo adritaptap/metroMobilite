@@ -26,23 +26,11 @@ namespace MetroMobiliteUI
         }
         private void UserControl1_Loaded(object sender, RoutedEventArgs e)
         {
-            MetroMobiliteUI.ViewModel.StopViewModel StopViewModelObject =
-               new MetroMobiliteUI.ViewModel.StopViewModel();
-            StopViewModelObject.LoadStops();
-
-            UserControl1Control.DataContext = StopViewModelObject;
+           
         }
 
-        public void DisplayData(object sender, RoutedEventArgs e)
-        {
-            UserControl1Control.Visibility = Visibility.Visible;
+       
 
-
-        }
-
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
+    
     }
 }

@@ -31,7 +31,7 @@ namespace MetroMobiliteUI.Converter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if ((string)value == "C38")
+            if ((string)value == "C38" || (string)value == "SCOL" || (string)value == "SNC")
             {
                 value = 100;
             }

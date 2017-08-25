@@ -10,17 +10,17 @@ using System.Windows;
 
 namespace MetroMobiliteUI.ViewModel
 {
-    class StopViewModel
+    public class StopViewModel
     {
         public ObservableCollection<StopModel> Stops { get; set; }
 
-        public void LoadStops()
+        public void LoadStops(string lon, string lat, int dist )
         {
             ObservableCollection<StopModel> stops = new ObservableCollection<StopModel>();
           
             MetroMobiliteService metroMobiliteService = new MetroMobiliteService();
 
-            Dictionary<string, MetroMobiliteLibrary.Stop> dico = metroMobiliteService.GetStops(45.1857086, 5.7248162, 700);
+            Dictionary<string, Stop> dico = metroMobiliteService.GetStops(lon, lat, dist);
 
             foreach (var item in dico.Values)
             {
