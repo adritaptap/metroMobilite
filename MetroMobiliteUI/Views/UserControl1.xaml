@@ -8,10 +8,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
              xmlns:converteur="clr-namespace:MetroMobiliteUI.Converter"
              xmlns:local="clr-namespace:MetroMobiliteUI.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="500" d:DesignWidth="500">
+             d:DesignHeight="1000" d:DesignWidth="1000">
 
     <UserControl.Resources>
         <converteur:TypeToRadiusConverter x:Key="converterRadius" />
@@ -19,32 +20,39 @@
     </UserControl.Resources>
 
     <Grid>
-        <ScrollViewer>
-            <StackPanel HorizontalAlignment = "Center">
-                <TextBlock Margin="0 30 0 0" FontSize="25" TextAlignment="left" Width="Auto">
-                    Géolocalisation
-                </TextBlock>
-                <StackPanel HorizontalAlignment = "left">
-                    <WrapPanel>
-                        <Label VerticalAlignment="Center" Margin="10, 10, 0, 0" Content="Lat" Width="120" FontSize="15"/>
-                        <TextBox Name="lat" Text="{Binding Path=Lat , Mode = TwoWay}" Margin="10, 10, 0, 0" MinWidth="80"  FontSize="15"/>
-                    </WrapPanel>
-                    <WrapPanel>
-                        <Label VerticalAlignment="Center" Margin="10, 10, 0, 0" Content="Long" Width="120" FontSize="15"/>
-                        <TextBox Name="lon"  Text="{Binding Path=Lon, Mode = TwoWay}" Margin="10, 10, 0, 0" MinWidth="80"  FontSize="15"/>
-                    </WrapPanel>
-                    <WrapPanel>
-                        <Label VerticalAlignment="Center" Margin="10, 10, 0, 0" Content="Distance (en m)" Width="120" FontSize="15"/>
-                        <TextBox Name="dist" Text="{Binding Path=Dist, Mode = TwoWay}" Margin="10, 10, 0, 0" MinWidth="80"  FontSize="15"/>
-                    </WrapPanel>
-                    <Button Name="btn" HorizontalAlignment="Left" Margin="10,20,0,0"  Width="90" Click="DisplayData"
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+              
+        <StackPanel Grid.Column="0" Margin="20 0 0 0">
+         <TextBlock Margin="0 30 0 0" FontSize="25" TextAlignment="left" Width="Auto">
+            Géolocalisation
+        </TextBlock>
+        <WrapPanel>
+            <Label VerticalAlignment="Center" Margin="10, 10, 0, 0" Content="Lat" Width="120" FontSize="15"/>
+            <TextBox Name="lat" Text="{Binding Path=Lat , Mode = TwoWay}" Margin="10, 10, 0, 0" MinWidth="80"  FontSize="15"/>
+        </WrapPanel>
+        <WrapPanel>
+            <Label VerticalAlignment="Center" Margin="10, 10, 0, 0" Content="Long" Width="120" FontSize="15"/>
+            <TextBox Name="lon"  Text="{Binding Path=Lon, Mode = TwoWay}" Margin="10, 10, 0, 0" MinWidth="80"  FontSize="15"/>
+        </WrapPanel>
+        <WrapPanel>
+            <Label VerticalAlignment="Center" Margin="10, 10, 0, 0" Content="Distance (en m)" Width="120" FontSize="15"/>
+            <TextBox Name="dist" Text="{Binding Path=Dist, Mode = TwoWay}" Margin="10, 10, 0, 0" MinWidth="80"  FontSize="15"/>
+        </WrapPanel>
+        <Button Name="btn" HorizontalAlignment="Left" Margin="10 20 0 20"  Width="90" Click="DisplayData"
        ClickMode="Release">
-                        Afficher
-                    </Button>
-                </StackPanel>
-                <TextBlock Name="Title" Margin="0 10 0 25" FontSize="25" TextAlignment="left" Visibility="Hidden" Width="Auto">
+            Afficher
+        </Button>
+            <m:Map x:Name="myMap" Margin="0 0 0 0" HorizontalAlignment="Left" MouseDoubleClick="MapWithPushpins_MouseDoubleClick" CredentialsProvider="OIldfxKRraIPAG03Adhw~rWlKpuI2cn3Kd9d_EYL0Qg~AnRl0_kIEPbPLDxOq6433qui8XuEBjR-Xc3e7-Mz8NBo8UQ-blfY8PT1BjNuz3Sz" Height="460" Width="600" Center="45.1910523, 5.725309" ZoomLevel="15" />
+        </StackPanel>
+
+        <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="20 30 0 20">
+                    <TextBlock Name="Title" Margin="0 10 0 25" FontSize="25" TextAlignment="left" Visibility="Hidden" >
                     Les arrêts et lignes près de vous :
-                </TextBlock>
+        </TextBlock>
                 <ItemsControl ItemsSource = "{Binding Path = Stops}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
@@ -54,20 +62,20 @@
                                 BorderThickness="2"
                                 Margin="0 0 0 20"
                                 Padding="8">
-                                <StackPanel Orientation = "Horizontal"  Margin = "0 0 0 50">
+                                <StackPanel Orientation = "Horizontal"  Margin = "0 0 0 20" >
                                     <WrapPanel>
-                                        <TextBlock Text = "{Binding Path = Name, Mode = TwoWay}" TextWrapping="Wrap" Margin = "0 5 3 5" FontWeight="Bold" FontSize="15" Width="250"/>
+                                        <TextBlock Text = "{Binding Path = Name, Mode = TwoWay}" TextWrapping="Wrap" Margin = "0 5 3 5" FontWeight="Bold" FontSize="15" Width="200"/>
                                     </WrapPanel>
                                     <ItemsControl ItemsSource = "{Binding Path = Lines}">
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
                                                 <StackPanel Orientation = "Horizontal">
-                                                    <Border Margin="5" Padding="5" BorderThickness="1" BorderBrush="#0000" Background="{Binding Path=Color, Mode = TwoWay}" CornerRadius="{Binding Path=Type, Converter={StaticResource converterRadius}}" Height="50" Width="{Binding Path=Type, Converter={StaticResource converterWidth}}">
+                                                    <Border Margin="5" Padding="5" BorderThickness="1" BorderBrush="#0000" Background="{Binding Path=Color, Mode = TwoWay}" CornerRadius="{Binding Path=Type, Converter={StaticResource converterRadius}}" Height="45" Width="{Binding Path=Type, Converter={StaticResource converterWidth}}">
                                                         <TextBlock Text = "{Binding Path = ShortName, Mode = TwoWay}"  Margin = "1" VerticalAlignment="Center"  HorizontalAlignment="Center" Foreground="{Binding Path=TextColor, Mode = TwoWay}" FontWeight="Bold" FontSize="15"/>
                                                     </Border>
-                                                    <TextBlock Text = "{Binding Path =LongName, Mode = TwoWay}" Margin = "1" VerticalAlignment="Center"  HorizontalAlignment="Center" FontSize="15" />
-                                                    <TextBlock Text = "//"  Margin = "1" VerticalAlignment="Center"  HorizontalAlignment="Center" FontWeight="Bold"  FontSize="15" />
-                                                    <TextBlock Text = "{Binding Path = Type, Mode = TwoWay}"  Margin = "1" VerticalAlignment="Center"  HorizontalAlignment="Center" FontWeight="Bold"  FontSize="15"/>
+                                                    <TextBlock Text = "{Binding Path =LongName, Mode = TwoWay}" Margin = "1" VerticalAlignment="Center"  HorizontalAlignment="Left" FontSize="15" />
+                                                    <TextBlock Text = "//"  Margin = "1" VerticalAlignment="Center"  HorizontalAlignment="Left" FontWeight="Bold"  FontSize="15" />
+                                                    <TextBlock Text = "{Binding Path = Type, Mode = TwoWay}"  Margin = "1" VerticalAlignment="Center"  HorizontalAlignment="Left" FontWeight="Bold"  FontSize="15" TextWrapping="Wrap"/>
                                                 </StackPanel>
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>
@@ -78,6 +86,7 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </StackPanel>
+     
         </ScrollViewer>
     </Grid>
 </UserControl>

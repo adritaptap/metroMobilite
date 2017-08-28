@@ -33,11 +33,11 @@ namespace MetroMobiliteUI.Converter
         {
             if ((string)value == "C38" || (string)value == "SCOL" || (string)value == "SNC")
             {
-                value = 100;
+                value = 90;
             }
             else
             {
-                value = 50;
+                value = 45;
             }
             return value;
         }

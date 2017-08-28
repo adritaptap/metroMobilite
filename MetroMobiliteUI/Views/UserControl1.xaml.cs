@@ -1,7 +1,10 @@
 ﻿using MetroMobiliteUI.ViewModel;
+using Microsoft.Maps.MapControl.WPF;
+using Microsoft.Maps.MapControl.WPF.Design;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,7 +28,7 @@ namespace MetroMobiliteUI.Views
         private string _dist;
         private string _lon;
         private string _lat;
-
+       
         public string Dist
         {
             get { return _dist; }
@@ -58,6 +61,7 @@ namespace MetroMobiliteUI.Views
             Lat = "5.7253605";
             Lon = "45.1910605";
             DataContext = this;
+            //this.addNewPolygon();
             InitializeComponent();
         }
 
@@ -75,6 +79,44 @@ namespace MetroMobiliteUI.Views
             lat.Text = Lat;
             lon.Text = Lon;
         }
+
+        LocationConverter locConverter = new LocationConverter();
+
+        public void AddPushpinToMap()
+        {
+            InitializeComponent();
+            //Set focus on mapl
+            myMap.Focus();
+        }
+
+        private void MapWithPushpins_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            // Disables the default mouse double-click action.
+            e.Handled = true;
+           
+            // Determin the location to place the pushpin at on the map.
+
+            //Get the mouse click coordinates
+            Point mousePosition = e.GetPosition(myMap);
+            //Convert the mouse coordinates to a locatoin on the map
+            Location pinLocation = myMap.ViewportPointToLocation(mousePosition);
+
+            if(myMap.Children.Count != 0)
+           {
+                myMap.Children.RemoveAt(0);
+            }
+            
+            Pushpin pin = new Pushpin();
+            
+            pin.Location = pinLocation;
+            
+            // Adds the pushpin to the map.
+            myMap.Children.Add(pin);
+            lon.Text = pin.Location.Latitude.ToString(CultureInfo.InvariantCulture);
+            lat.Text = pin.Location.Longitude.ToString(CultureInfo.InvariantCulture);
+        }
+       
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 

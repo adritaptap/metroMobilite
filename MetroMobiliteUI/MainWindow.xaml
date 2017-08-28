@@ -11,7 +11,7 @@
         xmlns:local="clr-namespace:MetroMobiliteUI"
         xmlns:views="clr-namespace:MetroMobiliteUI.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="Auto" Width="Auto" ShowInTaskbar="true">
+        Title="Metromobilite" WindowStyle="SingleBorderWindow" Height="800" Width="Auto" ShowInTaskbar="true" ResizeMode="NoResize" >
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="63*"/>
