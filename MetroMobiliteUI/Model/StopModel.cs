@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,12 +12,17 @@ namespace MetroMobiliteUI.Model
     public class StopModel : INotifyPropertyChanged
     {
         private string _name;
+        private double _lon;
+        private double _lat;
         private List<LineModel> _lines;
 
-        public StopModel(string name)
+        public StopModel(string name, string lat, string lon)
         {
             this.Name = name;
+            this.Lat = Convert.ToDouble(lat);
+            this.Lon = Convert.ToDouble(lon);
             this.Lines = new List<LineModel>();
+
         }
 
         public string Name {
@@ -35,6 +41,42 @@ namespace MetroMobiliteUI.Model
             }
         }
 
+        public double Lat
+        {
+            get
+            {
+                return _lat;
+            }
+
+            set
+            {
+                if (_lat != value)
+                {
+                    _lat = value;
+                    RaisePropertyChanged("Lat");
+                    RaisePropertyChanged("Loc");
+                }
+            }
+        }
+
+        public double Lon
+        {
+            get
+            {
+                return _lon;
+            }
+
+            set
+            {
+                if (_lon != value)
+                {
+                    _lon = value;
+                    RaisePropertyChanged("Lon");
+                    RaisePropertyChanged("Loc");
+                }
+            }
+        }
+
         public List<LineModel> Lines
         {
             get
@@ -49,6 +91,14 @@ namespace MetroMobiliteUI.Model
                     _lines = value;
                     RaisePropertyChanged("Lines");
                 }
+            }
+        }
+
+        public string Loc
+        {
+            get
+            {
+                return _lat.ToString(CultureInfo.InvariantCulture) + "," + _lon.ToString(CultureInfo.InvariantCulture); ;
             }
         }
 

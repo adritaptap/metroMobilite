@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MetroMobiliteUI.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,11 +27,10 @@ namespace MetroMobiliteUI
         }
         private void UserControl1_Loaded(object sender, RoutedEventArgs e)
         {
-           
+            StopViewModel stopViewModel = new StopViewModel();
+            stopViewModel.LoadStops();
+            UserControl1Control.DataContext = stopViewModel;
+
         }
-
-       
-
-    
     }
 }

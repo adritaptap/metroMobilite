@@ -1,4 +1,6 @@
-﻿using MetroMobiliteUI.ViewModel;
+﻿using MetroMobiliteUI.Command;
+using MetroMobiliteUI.Model;
+using MetroMobiliteUI.ViewModel;
 using Microsoft.Maps.MapControl.WPF;
 using Microsoft.Maps.MapControl.WPF.Design;
 using System;
@@ -23,100 +25,66 @@ namespace MetroMobiliteUI.Views
     /// <summary>
     /// Logique d'interaction pour UserControl1.xaml
     /// </summary>
-    public partial class UserControl1 : UserControl, INotifyPropertyChanged, IUserControl1
+    public partial class UserControl1 : UserControl
     {
-        private string _dist;
-        private string _lon;
-        private string _lat;
-       
-        public string Dist
+        Pushpin pin = new Pushpin();
+
+        private Location _coord; 
+
+        public Location Coord
         {
-            get { return _dist; }
-            set {
-                _dist = value;
-                RaisePropertyChanged("Dist");
+            get
+            {
+                return _coord;
             }
-        }
-        public string Lon
-        {
-            get { return _lon; }
+
             set
             {
-                _lon = value;
-                RaisePropertyChanged("Lon");
+                if (_coord != value)
+                {
+                    _coord = value;
+                    RaisePropertyChanged("Coord");
+                }
             }
         }
-        public string Lat
-        {
-            get { return _lat; }
-            set
-            {
-                _lat = value;
-                RaisePropertyChanged("Lat");
-            }
-        }
+
         public UserControl1()
         {
-            Dist = "700";
-            Lat = "5.7253605";
-            Lon = "45.1910605";
-            DataContext = this;
-            //this.addNewPolygon();
             InitializeComponent();
-        }
-
-        public void DisplayData(object sender, RoutedEventArgs e)
-        {
-            Dist = dist.Text;
-            Lat = lat.Text;
-            Lon = lon.Text;
-            StopViewModel StopViewModelObject = new StopViewModel();
-            StopViewModelObject.LoadStops(Convert.ToString(Lon), Convert.ToString(Lat), Convert.ToInt32(Dist));
-            this.DataContext = StopViewModelObject;
-            Title.Visibility = Visibility.Visible;
-
-            Dist = dist.Text = Dist;
-            lat.Text = Lat;
-            lon.Text = Lon;
-        }
-
-        LocationConverter locConverter = new LocationConverter();
-
-        public void AddPushpinToMap()
-        {
-            InitializeComponent();
-            //Set focus on mapl
             myMap.Focus();
+            pin.Location = new Location(45.1910605,5.7253605);
+            myMap.Children.Add(pin);
+
         }
+
+        //public void AddPushpinToMap()
+        //{
+        //    InitializeComponent();
+        //    myMap.Focus();
+        //}
 
         private void MapWithPushpins_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            // Disables the default mouse double-click action.
             e.Handled = true;
-           
-            // Determin the location to place the pushpin at on the map.
-
-            //Get the mouse click coordinates
             Point mousePosition = e.GetPosition(myMap);
-            //Convert the mouse coordinates to a locatoin on the map
             Location pinLocation = myMap.ViewportPointToLocation(mousePosition);
 
-            if(myMap.Children.Count != 0)
-           {
-                myMap.Children.RemoveAt(0);
-            }
-            
-            Pushpin pin = new Pushpin();
-            
+            //if (myMap.Children.Count != 0)
+            //{
+            //    myMap.Children.RemoveAt(0);
+            //}
+            //Pushpin pin = new Pushpin();           
+           
+            //pin.Location = pinLocation;
+            //Coord = new Location(pinLocation.Latitude, pinLocation.Longitude);
             pin.Location = pinLocation;
             
-            // Adds the pushpin to the map.
-            myMap.Children.Add(pin);
+
+            //CurrentLocation = pin.Location.Latitude.ToString(CultureInfo.InvariantCulture) + "," + pin.Location.Longitude.ToString(CultureInfo.InvariantCulture);
+            //pinCurrent.Location = CurrentLocation;
             lon.Text = pin.Location.Latitude.ToString(CultureInfo.InvariantCulture);
             lat.Text = pin.Location.Longitude.ToString(CultureInfo.InvariantCulture);
         }
-       
-
 
         public event PropertyChangedEventHandler PropertyChanged;
 

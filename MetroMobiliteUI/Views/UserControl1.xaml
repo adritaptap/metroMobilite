@@ -17,6 +17,7 @@
     <UserControl.Resources>
         <converteur:TypeToRadiusConverter x:Key="converterRadius" />
         <converteur:TypeToWidthConverter x:Key="converterWidth" />
+        <converteur:SplitNameConverter x:Key="converterName" />
     </UserControl.Resources>
 
     <Grid>
@@ -24,35 +25,48 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="1*" />
         </Grid.ColumnDefinitions>
-              
+
         <StackPanel Grid.Column="0" Margin="20 0 0 0">
-         <TextBlock Margin="0 30 0 0" FontSize="25" TextAlignment="left" Width="Auto">
+            <TextBlock Margin="0 30 0 0" FontSize="25" TextAlignment="left" Width="Auto">
             Géolocalisation
         </TextBlock>
         <WrapPanel>
             <Label VerticalAlignment="Center" Margin="10, 10, 0, 0" Content="Lat" Width="120" FontSize="15"/>
-            <TextBox Name="lat" Text="{Binding Path=Lat , Mode = TwoWay}" Margin="10, 10, 0, 0" MinWidth="80"  FontSize="15"/>
+                <TextBlock Name="lat" Text="{ Binding Path=Lat, Mode=TwoWay}" Margin="10, 10, 0, 0" MinWidth="80"  FontSize="15"/>
         </WrapPanel>
-        <WrapPanel>
-            <Label VerticalAlignment="Center" Margin="10, 10, 0, 0" Content="Long" Width="120" FontSize="15"/>
-            <TextBox Name="lon"  Text="{Binding Path=Lon, Mode = TwoWay}" Margin="10, 10, 0, 0" MinWidth="80"  FontSize="15"/>
-        </WrapPanel>
-        <WrapPanel>
+            <WrapPanel>
+                <Label VerticalAlignment="Center" Margin="10, 10, 0, 0" Content="Long" Width="120" FontSize="15"/>
+                <TextBlock Name="lon"  Text="{ Binding Path=Lon, Mode=TwoWay }" Margin="10, 10, 0, 0" MinWidth="80"  FontSize="15"/>
+            </WrapPanel>
+            <WrapPanel>
             <Label VerticalAlignment="Center" Margin="10, 10, 0, 0" Content="Distance (en m)" Width="120" FontSize="15"/>
-            <TextBox Name="dist" Text="{Binding Path=Dist, Mode = TwoWay}" Margin="10, 10, 0, 0" MinWidth="80"  FontSize="15"/>
+                <TextBox Name="dist" Text="{ Binding Path=Dist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10, 10, 0, 0" MinWidth="80"  FontSize="15"/>
         </WrapPanel>
-        <Button Name="btn" HorizontalAlignment="Left" Margin="10 20 0 20"  Width="90" Click="DisplayData"
+            <Button Name="btn" HorizontalAlignment="Left" Margin="10 20 0 20"  Width="90" Command="{Binding Path=DisplayCommand}"
        ClickMode="Release">
             Afficher
         </Button>
-            <m:Map x:Name="myMap" Margin="0 0 0 0" HorizontalAlignment="Left" MouseDoubleClick="MapWithPushpins_MouseDoubleClick" CredentialsProvider="OIldfxKRraIPAG03Adhw~rWlKpuI2cn3Kd9d_EYL0Qg~AnRl0_kIEPbPLDxOq6433qui8XuEBjR-Xc3e7-Mz8NBo8UQ-blfY8PT1BjNuz3Sz" Height="460" Width="600" Center="45.1910523, 5.725309" ZoomLevel="15" />
+            <m:Map x:Name="myMap" Margin="0 0 0 0" HorizontalAlignment="Left" MouseDoubleClick="MapWithPushpins_MouseDoubleClick" CredentialsProvider="OIldfxKRraIPAG03Adhw~rWlKpuI2cn3Kd9d_EYL0Qg~AnRl0_kIEPbPLDxOq6433qui8XuEBjR-Xc3e7-Mz8NBo8UQ-blfY8PT1BjNuz3Sz" Height="750" Width="800" Center="45.1910523, 5.725309" ZoomLevel="15" >
+                <m:MapItemsControl ItemsSource = "{Binding Path = Stops}">
+                    <m:MapItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Canvas Width="100" Height="100" 
+                                 m:MapLayer.Position="{Binding Path= Loc}" 
+                                 m:MapLayer.PositionOrigin="BottomCenter" Opacity="0.7">
+                                <Path Data="M 0,0 L 150,0 150,50 150,50 75,80 0,50" Fill="#1c478c" Stroke="Wheat" StrokeThickness="2" />
+                                <TextBlock FontSize="10" Foreground="White" Margin="5" TextAlignment="Center" TextWrapping="Wrap" Text="{Binding Path = Name,  Converter={StaticResource converterName}}" />
+                            </Canvas>
+                        </DataTemplate>
+                    </m:MapItemsControl.ItemTemplate>
+                </m:MapItemsControl>
+            </m:Map>
         </StackPanel>
 
         <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto">
             <StackPanel Margin="20 30 0 20">
-                    <TextBlock Name="Title" Margin="0 10 0 25" FontSize="25" TextAlignment="left" Visibility="Hidden" >
+                <TextBlock Name="Title" Margin="0 10 0 25" FontSize="25" TextAlignment="left" >
                     Les arrêts et lignes près de vous :
-        </TextBlock>
+                </TextBlock>
                 <ItemsControl ItemsSource = "{Binding Path = Stops}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
@@ -86,7 +100,6 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </StackPanel>
-     
         </ScrollViewer>
     </Grid>
 </UserControl>
