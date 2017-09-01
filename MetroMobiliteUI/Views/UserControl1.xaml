@@ -18,6 +18,17 @@
         <converteur:TypeToRadiusConverter x:Key="converterRadius" />
         <converteur:TypeToWidthConverter x:Key="converterWidth" />
         <converteur:SplitNameConverter x:Key="converterName" />
+
+        <ControlTemplate x:Key="CutomPushpinTemplate" TargetType="m:Pushpin">
+            <Canvas Width="Auto" Height="Auto" 
+                          m:MapLayer.Position="{TemplateBinding Loc}" 
+                          m:MapLayer.PositionOrigin="BottomCenter" Opacity="0.7">
+                <Path Data="M 0,0 L 100,0 100,0 100,50 0,50 -10,-10" Fill="black" Stroke="Wheat" StrokeThickness="2" />
+                <TextBlock FontSize="10" Foreground="White" Margin="5" TextAlignment="Center" TextWrapping="WrapWithOverflow" Text="{Binding Path = Name,  Converter={StaticResource converterName}}" />
+            </Canvas>
+        </ControlTemplate>
+
+
     </UserControl.Resources>
 
     <Grid>
@@ -50,12 +61,9 @@
                 <m:MapItemsControl ItemsSource = "{Binding Path = Stops}">
                     <m:MapItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Canvas Width="100" Height="100" 
-                                 m:MapLayer.Position="{Binding Path= Loc}" 
-                                 m:MapLayer.PositionOrigin="BottomCenter" Opacity="0.7">
-                                <Path Data="M 0,0 L 150,0 150,50 150,50 75,80 0,50" Fill="#1c478c" Stroke="Wheat" StrokeThickness="2" />
-                                <TextBlock FontSize="10" Foreground="White" Margin="5" TextAlignment="Center" TextWrapping="Wrap" Text="{Binding Path = Name,  Converter={StaticResource converterName}}" />
-                            </Canvas>
+
+                            <m:Pushpin Template="{ StaticResource CutomPushpinTemplate }"/>
+
                         </DataTemplate>
                     </m:MapItemsControl.ItemTemplate>
                 </m:MapItemsControl>

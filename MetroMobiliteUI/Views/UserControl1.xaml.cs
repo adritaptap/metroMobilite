@@ -57,32 +57,13 @@ namespace MetroMobiliteUI.Views
 
         }
 
-        //public void AddPushpinToMap()
-        //{
-        //    InitializeComponent();
-        //    myMap.Focus();
-        //}
-
         private void MapWithPushpins_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             e.Handled = true;
             Point mousePosition = e.GetPosition(myMap);
             Location pinLocation = myMap.ViewportPointToLocation(mousePosition);
-
-            //if (myMap.Children.Count != 0)
-            //{
-            //    myMap.Children.RemoveAt(0);
-            //}
-            //Pushpin pin = new Pushpin();           
-           
-            //pin.Location = pinLocation;
-            //Coord = new Location(pinLocation.Latitude, pinLocation.Longitude);
             pin.Location = pinLocation;
-            
-
-            //CurrentLocation = pin.Location.Latitude.ToString(CultureInfo.InvariantCulture) + "," + pin.Location.Longitude.ToString(CultureInfo.InvariantCulture);
-            //pinCurrent.Location = CurrentLocation;
-            lon.Text = pin.Location.Latitude.ToString(CultureInfo.InvariantCulture);
+                        lon.Text = pin.Location.Latitude.ToString(CultureInfo.InvariantCulture);
             lat.Text = pin.Location.Longitude.ToString(CultureInfo.InvariantCulture);
         }
 
